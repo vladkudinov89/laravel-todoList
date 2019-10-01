@@ -21,6 +21,11 @@ class TaskTest extends TestCase
             'description' => $taskDescription,
         ]);
 
+        self::assertDatabaseHas('task_lists' , [
+            'name' => $task[0]->name,
+            'description' => $task[0]->description,
+        ]);
+
         self::assertEquals($taskName , $task[0]->name);
         self::assertEquals($taskDescription , $task[0]->description);
     }
