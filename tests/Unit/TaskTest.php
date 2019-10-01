@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Entities\Task;
 use App\Repositories\Task\TaskRepository;
+use App\Repositories\Task\TaskRepositoryInterface;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -39,6 +40,16 @@ class TaskTest extends TestCase
         self::assertEquals($taskName, $task->name);
         self::assertEquals($taskDescription, $task->description);
     }
+
+    /** @test */
+    public function task_repository_registered()
+    {
+        self::assertInstanceOf(
+            TaskRepositoryInterface::class,
+            $this->taskRepository
+        );
+    }
+
 
     /** @test */
     public function task_get_all()
