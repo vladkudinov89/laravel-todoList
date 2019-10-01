@@ -13,15 +13,16 @@ class TaskControllerTest extends TestCase
     /** @test */
     public function get_all_tasks_index()
     {
+        $this->withoutExceptionHandling();
         $tasks = factory(Task::class, 3)->create();
 
         $response = $this->get('/tasks')
             ->assertStatus(200)
             ->getOriginalContent();
 
-        self::assertEquals($tasks[0]->name , $response[0]->name);
-        self::assertEquals($tasks[0]->description , $response[0]->description);
-        self::assertEquals($tasks[0]->is_complete , $response[0]->is_complete);
+        self::assertEquals($tasks[0]->name , $response['tasks'][0]->name);
+        self::assertEquals($tasks[0]->description , $response['tasks'][0]->description);
+        self::assertEquals($tasks[0]->is_complete , $response['tasks'][0]->is_complete);
     }
 
     /** @test */
@@ -33,9 +34,9 @@ class TaskControllerTest extends TestCase
             ->assertStatus(200)
             ->getOriginalContent();
 
-        self::assertEquals($task->name , $response->name);
-        self::assertEquals($task->description , $response->description);
-        self::assertEquals($task->is_complete , $response->is_complete);
+        self::assertEquals($task->name , $response['task']->name);
+        self::assertEquals($task->description , $response['task']->description);
+        self::assertEquals($task->is_complete , $response['task']->is_complete);
     }
 
 

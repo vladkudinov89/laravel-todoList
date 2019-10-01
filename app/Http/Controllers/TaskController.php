@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Task\GetAllTasks\GetAllTasksAction;
 use App\Actions\Task\GetTaskById\GetTaskByIdAction;
+use App\Entities\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -22,7 +23,10 @@ class TaskController extends Controller
 
     public function index()
     {
-        return $this->getAllTasksAction->execute()->getCollection();
+//        return $this->getAllTasksAction->execute()->getCollection();
+        return view('tasks.index' , [
+            'tasks' => $this->getAllTasksAction->execute()->getCollection()
+        ]);
     }
 
     /**
@@ -48,18 +52,16 @@ class TaskController extends Controller
 
     public function show(int $id)
     {
-       return $this->getTaskByIdAction->execute($id)->getModel();
+       return view('tasks.show' , [
+           'task' => $this->getTaskByIdAction->execute($id)->getModel()
+       ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Task $task)
     {
-        //
+       return view('tasks.edit' , [
+          'task' => $task
+       ]);
     }
 
     /**
