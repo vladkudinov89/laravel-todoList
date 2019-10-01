@@ -17,15 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('hello', function (){
-    return "hello, world. OMG, it works ¯\_(ツ)_/¯";
-});
-
-Route::get('hello/{name}', function ($name){
-    return "hello, {$name}. OMG, it works ¯\_(ツ)_/¯";
-})->where(['name' => '[A-z]+'])->name('profile');
-
-
-Route::get('hello/{name}/city/{city?}', function($name, $city = 'Kiev') {
-    return "hello, {$name} from {$city}. OMG, it works ¯\_(ツ)_/¯";
-});
+Route::resource('tasks' , 'TaskList');
