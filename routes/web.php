@@ -17,4 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('tasks' , 'TaskList');
+Route::resource('tasks' , 'TaskController');
