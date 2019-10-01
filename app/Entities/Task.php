@@ -40,4 +40,9 @@ class Task extends Model
     {
         return $this->is_complete;
     }
+
+    public function path(): string
+    {
+        return "tasks/{$this->id}";
+    }
 }
