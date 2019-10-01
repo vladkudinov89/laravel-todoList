@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Task;
+use App\Actions\Task\GetAllTasks\GetAllTasksAction;
+use App\Actions\Task\GetTaskById\GetTaskByIdAction;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $getAllTasksAction;
+    private $getTaskByIdAction;
+
+    public function __construct(
+        GetAllTasksAction $getAllTasksAction,
+        GetTaskByIdAction $getTaskByIdAction
+    )
+    {
+        $this->getAllTasksAction = $getAllTasksAction;
+        $this->getTaskByIdAction = $getTaskByIdAction;
+    }
+
     public function index()
     {
-        //
+        return $this->getAllTasksAction->execute()->getCollection();
     }
 
     /**
@@ -38,15 +46,9 @@ class TaskController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(int $id)
     {
-        //
+       return $this->getTaskByIdAction->execute($id)->getModel();
     }
 
     /**
