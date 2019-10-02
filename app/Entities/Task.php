@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
  * Class TaskList
  * @package App\Entities
  *
- * @property string name
- * @property string description
- * @property boolean is_complete
+ * @property string $name
+ * @property string $description
+ * @property boolean $is_complete
  */
 class Task extends Model
 {
