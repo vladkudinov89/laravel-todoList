@@ -16,7 +16,7 @@ class TaskLists extends Migration
         Schema::create('task_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->boolean('is_complete')->default(false);
             $table->timestamps();
         });

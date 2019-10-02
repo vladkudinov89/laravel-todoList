@@ -13,7 +13,6 @@ class TaskControllerTest extends TestCase
     /** @test */
     public function get_all_tasks_index()
     {
-        $this->withoutExceptionHandling();
         $tasks = factory(Task::class, 3)->create();
 
         $response = $this->get('/tasks')
@@ -37,6 +36,43 @@ class TaskControllerTest extends TestCase
         self::assertEquals($task->name , $response['task']->name);
         self::assertEquals($task->description , $response['task']->description);
         self::assertEquals($task->is_complete , $response['task']->is_complete);
+    }
+
+    /** @test */
+    public function save_task()
+    {
+       $response =  $this->post('tasks' , [
+            'name' => 'new name',
+            'description' => 'new description',
+            'is_complete' => 1
+        ]);
+
+//       dd($response->getOriginalContent());
+
+        $this->assertDatabaseHas('task_lists' , [
+            'name' => 'new name',
+            'description' => 'new description',
+            'is_complete' => 1
+        ]);
+    }
+
+
+    /** @test */
+    public function update_task()
+    {
+        $task = factory(Task::class)->create();
+
+        $response = $this->patch($task->path() , [
+            'name' => 'name changed',
+            'description' => 'description changed',
+            'is_complete' => 0
+        ]);
+
+        $this->assertDatabaseHas('task_lists' , [
+            'name' => 'name changed',
+            'description' => 'description changed',
+            'is_complete' => 0
+        ]);
     }
 
 
