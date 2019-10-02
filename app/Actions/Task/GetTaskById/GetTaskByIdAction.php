@@ -2,6 +2,7 @@
 
 namespace App\Actions\Task\GetTaskById;
 
+use App\Exceptions\Task\TaskDoesNotExistException;
 use App\Repositories\Task\TaskRepositoryInterface;
 
 class GetTaskByIdAction
@@ -16,6 +17,10 @@ class GetTaskByIdAction
     public function execute(int $id): GetTaskByIdResponse
     {
         $task = $this->repository->getById($id);
+
+        if(!$task){
+            throw  new TaskDoesNotExistException();
+        }
 
         return new GetTaskByIdResponse($task);
     }

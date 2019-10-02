@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Entities\Task;
+use App\Exceptions\Task\TaskDoesNotExistException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -38,10 +39,23 @@ class TaskControllerTest extends TestCase
         self::assertEquals($task->status , $response['task']->status);
     }
 
+    /** @test
+     *
+     * @expectedException \App\Exceptions\Task\TaskDoesNotExistException
+     */
+    public function get_fake_task_by_id()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->get('/tasks/' . 9999)
+            ->assertStatus(404);
+    }
+
+
     /** @test */
     public function save_task()
     {
-       $response =  $this->post('tasks' , [
+       $this->post('tasks' , [
             'name' => 'new name',
             'description' => 'new description',
             'status' => 1
@@ -60,7 +74,7 @@ class TaskControllerTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $response = $this->patch($task->path() , [
+        $this->patch($task->path() , [
             'name' => 'name changed',
             'description' => 'description changed',
             'status' => 1
@@ -71,6 +85,23 @@ class TaskControllerTest extends TestCase
             'description' => 'description changed',
             'status' => 1
         ]);
+    }
+
+    /** @test */
+    public function delete_task()
+    {
+        $task = factory(Task::class)->create();
+
+        $this->delete($task->path());
+
+        $this->assertDatabaseMissing('task_lists' , $task->toArray());
+    }
+
+    /** @test */
+    public function not_found_task_to_delete()
+    {
+        $this->delete('tasks/' . 9999)
+            ->assertStatus(404);
     }
 
 
