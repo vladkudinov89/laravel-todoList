@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $name
  * @property string $description
- * @property boolean $is_complete
+ * @property boolean $status
  */
 class Task extends Model
 {
@@ -19,11 +19,11 @@ class Task extends Model
     protected $fillable = [
         'name',
         'description',
-        'is_complete'
+        'status'
     ];
 
     protected $casts = [
-      'is_complete' => 'boolean'
+      'status' => 'boolean'
     ];
 
     public function getName(): string
@@ -36,9 +36,9 @@ class Task extends Model
         return $this->description;
     }
 
-    public function isComplete(): bool
+    public function getStatus(): bool
     {
-        return $this->is_complete;
+        return $this->status;
     }
 
     public function path(): string

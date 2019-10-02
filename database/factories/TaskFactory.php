@@ -9,6 +9,6 @@ $factory->define(Task::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
         'description' => $faker->sentence($nbWords = 4, $variableNbWords = true),
-        'is_complete' => $faker->boolean
+        'status' => $faker->boolean
     ];
 });

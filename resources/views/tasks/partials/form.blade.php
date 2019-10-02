@@ -40,10 +40,10 @@
     <div class="control">
         <select name="status" id="status">
             <option value="0"
-            @if($task->is_complete ?? 0 == 0){{"selected"}}@else{{ "" }}@endif
+            @if($task->status ?? 0 == 0){{"selected"}}@else{{ "" }}@endif
             >Not Complete</option>
             <option value="1"
-            @if($task->is_complete ?? 1 == 1){{"selected"}}@else{{ "" }}@endif
+            @if($task->status ?? 1 == 1){{"selected"}}@else{{ "" }}@endif
             >Complete</option>
         </select>
     </div>

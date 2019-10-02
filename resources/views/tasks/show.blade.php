@@ -17,7 +17,7 @@
                     <td>{{$task->id}}</td>
                     <td>{{$task->name}}</td>
                     <td>{{$task->description}}</td>
-                    <td>{{$task->isComplete() ? 'complete' : 'not complete'}}</td>
+                    <td>{{$task->getStatus() ? 'complete' : 'not complete'}}</td>
                     <td>
                         <a class="float-left edit-button"
                            href="{{route('tasks.edit' , $task->id)}}">

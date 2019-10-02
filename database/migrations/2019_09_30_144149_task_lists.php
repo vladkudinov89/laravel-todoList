@@ -17,7 +17,7 @@ class TaskLists extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
-            $table->boolean('is_complete')->default(false);
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

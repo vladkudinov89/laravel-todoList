@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Actions\Task\UpdateTask;
-
 
 use App\Repositories\Task\TaskRepositoryInterface;
 
@@ -21,7 +19,7 @@ class UpdateTaskAction
 
         $taskUpdate->name = $updateTaskRequest->getName();
         $taskUpdate->description = $updateTaskRequest->getDescription();
-        $taskUpdate->is_complete = $updateTaskRequest->getStatus();
+        $taskUpdate->status = $updateTaskRequest->getStatus();
 
         return new UpdateTaskResponse($this->taskRepository->save($taskUpdate));
     }

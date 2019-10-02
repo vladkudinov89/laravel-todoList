@@ -21,7 +21,7 @@ class TaskControllerTest extends TestCase
 
         self::assertEquals($tasks[0]->name , $response['tasks'][0]->name);
         self::assertEquals($tasks[0]->description , $response['tasks'][0]->description);
-        self::assertEquals($tasks[0]->is_complete , $response['tasks'][0]->is_complete);
+        self::assertEquals($tasks[0]->status , $response['tasks'][0]->status);
     }
 
     /** @test */
@@ -35,7 +35,7 @@ class TaskControllerTest extends TestCase
 
         self::assertEquals($task->name , $response['task']->name);
         self::assertEquals($task->description , $response['task']->description);
-        self::assertEquals($task->is_complete , $response['task']->is_complete);
+        self::assertEquals($task->status , $response['task']->status);
     }
 
     /** @test */
@@ -44,15 +44,13 @@ class TaskControllerTest extends TestCase
        $response =  $this->post('tasks' , [
             'name' => 'new name',
             'description' => 'new description',
-            'is_complete' => 1
+            'status' => 1
         ]);
-
-//       dd($response->getOriginalContent());
 
         $this->assertDatabaseHas('task_lists' , [
             'name' => 'new name',
             'description' => 'new description',
-            'is_complete' => 1
+            'status' => 1
         ]);
     }
 
@@ -65,13 +63,13 @@ class TaskControllerTest extends TestCase
         $response = $this->patch($task->path() , [
             'name' => 'name changed',
             'description' => 'description changed',
-            'is_complete' => 0
+            'status' => 1
         ]);
 
         $this->assertDatabaseHas('task_lists' , [
             'name' => 'name changed',
             'description' => 'description changed',
-            'is_complete' => 0
+            'status' => 1
         ]);
     }
 

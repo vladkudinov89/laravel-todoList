@@ -20,7 +20,7 @@
                         <a href="{{route('tasks.show' , $task->id)}}">{{$task->name}}</a>
                     </td>
                     <td>{{$task->description}}</td>
-                    <td>{{$task->isComplete() ? 'complete' : 'not complete'}}</td>
+                    <td>{{$task->getStatus() ? 'complete' : 'not complete'}}</td>
                     <td>
                         <a class="float-left edit-button"
                            href="{{route('tasks.edit' , $task->id)}}">

@@ -4,27 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Actions\Task\GetAllTasks\GetAllTasksAction;
 use App\Actions\Task\GetTaskById\GetTaskByIdAction;
+use App\Actions\Task\SaveTask\SaveTaskAction;
+use App\Actions\Task\SaveTask\SaveTaskRequest;
 use App\Actions\Task\UpdateTask\UpdateTaskAction;
 use App\Actions\Task\UpdateTask\UpdateTaskRequest;
 use App\Entities\Task;
+use App\Http\Requests\ValidateSaveTaskRequest;
 use App\Http\Requests\ValidateUpdateTaskRequest;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     private $getAllTasksAction;
     private $getTaskByIdAction;
     private $updateTaskAction;
+    private $saveTaskAction;
 
     public function __construct(
         GetAllTasksAction $getAllTasksAction,
         GetTaskByIdAction $getTaskByIdAction,
-        UpdateTaskAction $updateTaskAction
+        UpdateTaskAction $updateTaskAction,
+        SaveTaskAction $saveTaskAction
     )
     {
         $this->getAllTasksAction = $getAllTasksAction;
         $this->getTaskByIdAction = $getTaskByIdAction;
         $this->updateTaskAction = $updateTaskAction;
+        $this->saveTaskAction = $saveTaskAction;
     }
 
     public function index()
@@ -34,11 +39,6 @@ class TaskController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('tasks.create', [
@@ -47,17 +47,17 @@ class TaskController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ValidateSaveTaskRequest $request)
     {
-        $task = new Task([
-            'name' => $request->name,
-            'description' => $request->description,
-            'is_complete' => (bool) $request->status
-        ]);
+//        dd($request->status);
+        $this->saveTaskAction->execute(new SaveTaskRequest(
+            $request->name,
+            $request->description,
+            (bool) $request->status
+        ))->toArray();
 
-        $task->save();
-
-        return redirect()->route('tasks.index')->with('status', 'Success Add task');
+        return redirect()->route('tasks.index')
+            ->with('status', 'Success Add task');
     }
 
     public function show(int $id)
@@ -81,7 +81,7 @@ class TaskController extends Controller
             $task->id,
             $request->name,
             $request->description,
-            (bool) $request->status
+            (bool)$request->status
         ))->toArray();
 
         return redirect()->route('tasks.show', $task->id)
