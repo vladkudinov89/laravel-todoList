@@ -39,7 +39,7 @@
                     </td>
                 </tr>
                 @empty
-                <p>Not Tasks!</p>
+                <p>No Tasks!</p>
             @endforelse
 
             </tbody>
