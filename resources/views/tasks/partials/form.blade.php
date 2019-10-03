@@ -1,12 +1,13 @@
 @csrf
 
-<div class="field mb-6">
+<div class="form-group">
     <label class="label text-sm mb-2 block" for="title">Title</label>
 
     <div class="control">
         <input
             type="text"
-            class="input bg-transparent border border-muted-light rounded p-2 text-xs w-full"
+            class="input bg-transparent border border-muted-light rounded p-2 text-xs w-full
+            @if($errors->has('name')) error @endif"
             name="name"
             placeholder="Task Title"
             required
@@ -18,14 +19,15 @@
     @endif
 </div>
 
-<div class="field mb-6">
+<div class="form-group">
     <label class="label text-sm mb-2 block" for="description">Description</label>
 
     <div class="control">
             <textarea
                 name="description"
                 rows="10"
-                class="textarea bg-transparent border border-muted-light rounded p-2 text-xs w-full"
+                class="textarea bg-transparent border border-muted-light rounded p-2 text-xs w-full
+                @if($errors->has('name')) error @endif"
                 placeholder="Task Description"
                 required>@if(old('description')){{old('description')}}@else{{ $task->description ?? ""  }}@endif</textarea>
     </div>
@@ -34,7 +36,7 @@
     @endif
 </div>
 
-<div class="field mb-6">
+<div class="form-group">
     <label class="label text-sm mb-2 block" for="title">Task status</label>
 
     <div class="control">
