@@ -6,7 +6,7 @@
     <div class="control">
         <input
             type="text"
-            class="input bg-transparent border border-muted-light rounded p-2 text-xs w-full
+            class="input bg-transparent border border-muted-light rounded p-2 text-xs w-50
             @if($errors->has('name')) error @endif"
             name="name"
             placeholder="Task Title"
@@ -26,7 +26,7 @@
             <textarea
                 name="description"
                 rows="10"
-                class="textarea bg-transparent border border-muted-light rounded p-2 text-xs w-full
+                class="textarea bg-transparent border border-muted-light rounded p-2 text-xs w-50
                 @if($errors->has('name')) error @endif"
                 placeholder="Task Description"
                 required>@if(old('description')){{old('description')}}@else{{ $task->description ?? ""  }}@endif</textarea>
@@ -37,23 +37,22 @@
 </div>
 
 <div class="form-group">
-    <label class="label text-sm mb-2 block" for="title">Task status</label>
+    <label class="label text-sm mb-3 block" for="title">Task status</label>
 
-    <div class="control">
-        <select name="status" id="status">
+    <div>
+        <select name="status" id="status" class="w-25">
             <option value="0"
             @if($task->status ?? 0 == 0){{"selected"}}@else{{ "" }}@endif
-            >Not Complete</option>
+            >Not Complete
+            </option>
             <option value="1"
             @if($task->status ?? 1 == 1){{"selected"}}@else{{ "" }}@endif
-            >Complete</option>
+            >Complete
+            </option>
         </select>
     </div>
 </div>
 
-
-<div class="field mb-6">
-    <div class="control">
-        <button type="submit" class="button is-link mr-2">{{$buttonAction}}</button>
-    </div>
+<div class="">
+    <button type="submit" class="btn btn-primary w-50">{{$buttonAction}}</button>
 </div>

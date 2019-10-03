@@ -14,7 +14,7 @@
             </thead>
             <tbody>
             @forelse($tasks as $task)
-                <tr>
+                <tr class="@if($task->getStatus()) text-muted @endif" >
                     <td>{{$task->id}}</td>
                     <td>
                         <a href="{{route('tasks.show' , $task->id)}}">{{$task->name}}</a>
@@ -22,7 +22,7 @@
                     <td>{{$task->description}}</td>
                     <td>{{$task->getStatus() ? 'complete' : 'not complete'}}</td>
                     <td>
-                        <a class="float-left edit-button"
+                        <a class="float-left btn btn-info mr-2"
                            href="{{route('tasks.edit' , $task->id)}}">
                             Edit
                         </a>
@@ -31,7 +31,7 @@
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 
-                            <button class="delete-button button-delete" type="submit">
+                            <button class="btn btn-danger" type="submit">
                                 Delete
                             </button>
                         </form>

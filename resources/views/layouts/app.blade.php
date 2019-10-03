@@ -46,7 +46,7 @@
     <main class="py-1">
         <div class="container">
 
-            <ul class="nav m-5">
+            <ul class="nav m-3">
                 <li><a class="btn btn-outline-primary mr-2" href="{{route('tasks.index')}}">Tasks List</a></li>
                 <li><a class="btn btn-outline-success" href="{{route('tasks.create')}}">Add</a></li>
             </ul>

@@ -13,13 +13,13 @@
             </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr class="@if($task->getStatus()) text-muted @endif" >
                     <td>{{$task->id}}</td>
                     <td>{{$task->name}}</td>
                     <td>{{$task->description}}</td>
                     <td>{{$task->getStatus() ? 'complete' : 'not complete'}}</td>
                     <td>
-                        <a class="float-left edit-button"
+                        <a class="float-left btn btn-info mr-2"
                            href="{{route('tasks.edit' , $task->id)}}">
                             Edit
                         </a>
@@ -28,7 +28,7 @@
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
 
-                            <button class="delete-button button-delete" type="submit">
+                            <button class="btn btn-danger" type="submit">
                                Delete
                             </button>
                         </form>
