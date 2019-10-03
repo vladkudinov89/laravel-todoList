@@ -7,6 +7,7 @@ A few examples how to execute common commands in docker-compose:
 2. Run `cp .env.example .env` .
 3. Run command `docker-compose exec app composer install`.
 3. Run command `docker-compose up -d` to up project.
+4. Run command `docker-compose exec app php artisan migrate:fresh --seed`
 
 Run command `docker-compose exec app php ./vendor/bin/phpunit` to run tests.
 
