@@ -15,8 +15,8 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
-       - ./:/var/www
-       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 
@@ -68,7 +68,22 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: phpmyadmin
     networks:
-     - app-network
+      - app-network
+
+  frontend:
+    container_name: frontend
+    build:
+      dockerfile: ./docker/frontend/Dockerfile
+      context: .
+    volumes:
+      - ./webpack.mix.js:/var/www/webpack.mix.js
+      - ./package.json:/var/www/package.json
+      - ./package-lock.json:/var/www/package-lock.json
+      - ./resources:/var/www/resources
+      - ./public:/var/www/public
+    working_dir: /var/www
+    command: [ 'npm', 'run', 'watch-poll' ]
+    tty: true
 
 #Docker Networks
 networks:
