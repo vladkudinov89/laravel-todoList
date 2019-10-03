@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Repositories\Task\TaskRepository;
 use App\Repositories\Task\TaskRepositoryInterface;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::resourceVerbs([
+           'create'=>'add'
+        ]);
     }
 }
