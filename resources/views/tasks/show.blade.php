@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
+
+        <h2 class="mb-4 mt-4">View "{{$task->name}}" task</h2>
+
         <table class="table table-hover">
             <thead>
             <tr>

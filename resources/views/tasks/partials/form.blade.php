@@ -15,7 +15,7 @@
         >
     </div>
     @if($errors->has('name'))
-        <div class="alert alert-danger">{{$errors->first('name')}}</div>
+        <div class="alert alert-danger w-50">{{$errors->first('name')}}</div>
     @endif
 </div>
 
@@ -32,7 +32,7 @@
                 required>@if(old('description')){{old('description')}}@else{{ $task->description ?? ""  }}@endif</textarea>
     </div>
     @if($errors->has('description'))
-        <div class="alert alert-danger">{{$errors->first('description')}}</div>
+        <div class="alert alert-danger w-50">{{$errors->first('description')}}</div>
     @endif
 </div>
 
