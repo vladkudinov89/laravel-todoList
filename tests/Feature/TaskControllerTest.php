@@ -104,5 +104,37 @@ class TaskControllerTest extends TestCase
             ->assertStatus(404);
     }
 
+    /** @test */
+    public function search_tasks_by_name()
+    {
+        $tasks = factory(Task::class , 3)->create();
+
+        $response = $this->post('/tasks/search' , [
+                'search' => $tasks[0]->name
+        ])->getOriginalContent();
+
+        $this->assertDatabaseHas('task_lists' , [
+            'name' => $tasks[0]->name
+        ]);
+
+        $this->assertEquals($tasks[0]->name , $response['tasks'][0]->name);
+    }
+
+    /** @test */
+    public function search_tasks_by_description()
+    {
+        $tasks = factory(Task::class , 3)->create();
+
+        $response = $this->post('/tasks/search' , [
+                'search' => $tasks[0]->description
+        ])->getOriginalContent();
+
+        $this->assertDatabaseHas('task_lists' , [
+            'description' => $tasks[0]->description
+        ]);
+
+        $this->assertEquals($tasks[0]->description , $response['tasks'][0]->description);
+    }
+
 
 }

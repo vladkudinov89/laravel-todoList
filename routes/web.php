@@ -18,3 +18,5 @@ Route::get('/', function () {
 });
 
 Route::resource('tasks' , 'TaskController');
+
+Route::post('tasks/search' , 'TaskController@search')->name('tasks.search');

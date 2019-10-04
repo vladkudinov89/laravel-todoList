@@ -46,16 +46,27 @@
     <main class="py-1">
         <div class="container">
 
-            <ul class="nav m-3">
+            <ul class="nav m-3 justify-content-between">
+               <ul class="nav">
                 <li><a class="btn btn-outline-primary mr-2" href="{{route('tasks.index')}}">Tasks List</a></li>
                 <li><a class="btn btn-outline-success" href="{{route('tasks.create')}}">Add</a></li>
-            </ul>
+               </ul>
 
-            @if(session('status'))
-                <div class="alert alert-info">
-                    {{session('status')}}
-                </div>
-            @endif
+                <li>
+                    <form class="form-inline my-2 my-lg-0" action="{{route('tasks.search')}}" method="post">
+
+                        {{csrf_field()}}
+
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" id="search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+
+                    @error('search')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+
+                </li>
+            </ul>
 
             @yield('content')
 
