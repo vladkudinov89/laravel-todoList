@@ -65,10 +65,10 @@ class TaskController extends Controller
             ->with('status', 'Success Add task');
     }
 
-    public function show(int $id)
+    public function show(Task $task)
     {
         return view('tasks.show', [
-            'task' => $this->getTaskByIdAction->execute($id)->getModel()
+            'task' => $this->getTaskByIdAction->execute($task->id)->getModel()
         ]);
     }
 
@@ -89,7 +89,7 @@ class TaskController extends Controller
             $request->status
         ))->toArray();
 
-        return redirect()->route('tasks.show', $task->id)
+        return redirect()->route('tasks.show', $task->name)
             ->with('status', 'Success Update task');
     }
 

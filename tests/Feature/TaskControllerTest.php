@@ -39,18 +39,12 @@ class TaskControllerTest extends TestCase
         self::assertEquals($task->status , $response['task']->status);
     }
 
-    /** @test
-     *
-     * @expectedException \App\Exceptions\Task\TaskDoesNotExistException
-     */
-    public function get_fake_task_by_id()
+    /** @test */
+    public function get_fake_task_by_name()
     {
-        $this->withoutExceptionHandling();
-
-        $this->get('/tasks/' . 9999)
+        $this->get('/tasks/fake')
             ->assertStatus(404);
     }
-
 
     /** @test */
     public function save_task()

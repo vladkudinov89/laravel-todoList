@@ -23,11 +23,11 @@
                     <td>{{$task->getStatus() ? 'complete' : 'not complete'}}</td>
                     <td>
                         <a class="float-left btn btn-info mr-2"
-                           href="{{route('tasks.edit' , $task->id)}}">
+                           href="{{route('tasks.edit' , $task)}}">
                             Edit
                         </a>
 
-                        <form action="{{ route('tasks.destroy',$task->id) }}" method="POST">
+                        <form action="{{ route('tasks.destroy',$task) }}" method="POST">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
 
