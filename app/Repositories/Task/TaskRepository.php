@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 class TaskRepository implements TaskRepositoryInterface
 {
-    public function findAll(): Collection
+    public function findAll()
     {
-        return Task::all();
+        return Task::paginate(5);
     }
 
     public function getById(int $id): ?Task

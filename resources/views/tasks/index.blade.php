@@ -43,6 +43,8 @@
             @endforelse
 
             </tbody>
+
         </table>
+        {{ $tasks->links() }}
     </div>
     @endsection
