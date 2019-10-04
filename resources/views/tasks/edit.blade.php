@@ -5,7 +5,7 @@
 
        <h2 class="mb-4 mt-4">Edit "{{$task->name}}" task</h2>
 
-       <form class="form-horizontal" action="{{route('tasks.update' , $task->id)}}" method="post">
+       <form class="form-horizontal" action="{{route('tasks.update' , $task)}}" method="post">
            <input type="hidden" name="_method" value="put">
            {{csrf_field()}}
 

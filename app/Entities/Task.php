@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class TaskList
  * @package App\Entities
  *
+ * @property int $id
  * @property string $name
  * @property string $description
  * @property boolean $status
@@ -26,6 +27,11 @@ class Task extends Model
       'status' => 'boolean'
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
     public function getName(): string
     {
         return $this->name;
@@ -43,6 +49,6 @@ class Task extends Model
 
     public function path(): string
     {
-        return "tasks/{$this->id}";
+        return "tasks/{$this->name}";
     }
 }
