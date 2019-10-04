@@ -9,12 +9,12 @@ class GetAllTasksResponse
 {
     private $taskCollection;
 
-    public function __construct(Collection $taskCollection)
+    public function __construct( $taskCollection)
     {
         $this->taskCollection = $taskCollection;
     }
 
-    public function getCollection(): Collection
+    public function getCollection()
     {
         return $this->taskCollection;
     }
