@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class TaskList
  * @package App\Entities
  *
+ * @property int $id
  * @property string $name
  * @property string $description
  * @property boolean $status
