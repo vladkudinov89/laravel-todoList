@@ -11,6 +11,7 @@ use App\Actions\Task\SaveTask\SaveTaskRequest;
 use App\Actions\Task\UpdateTask\UpdateTaskAction;
 use App\Actions\Task\UpdateTask\UpdateTaskRequest;
 use App\Entities\Task;
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\ValidateSaveTaskRequest;
 use App\Http\Requests\ValidateUpdateTaskRequest;
 
@@ -20,9 +21,6 @@ class TaskController extends Controller
     private $getTaskByIdAction;
     private $updateTaskAction;
     private $saveTaskAction;
-    /**
-     * @var DeleteTaskAction
-     */
     private $deleteTaskAction;
 
     public function __construct(
@@ -101,5 +99,14 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.index')
             ->with('status' , 'Task Success Deleted!');
+    }
+
+    public function search(SearchRequest $request)
+    {
+        return view('tasks.index' , [
+           'tasks' => Task::where('name', 'LIKE', '%' . (string) $request->search . '%')
+               ->orWhere('description', 'LIKE', '%' . (string) $request->search . '%')
+               ->paginate(5)
+        ]);
     }
 }
