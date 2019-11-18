@@ -6,7 +6,7 @@ use App\Entities\Task;
 
 class SaveTaskResponse
 {
-    private $task;
+    protected $task;
 
     public function __construct(Task $task)
     {
@@ -21,5 +21,25 @@ class SaveTaskResponse
     public function toArray(): array
     {
         return $this->task->toArray();
+    }
+
+    public function getId(): int
+    {
+        return $this->task->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->task->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->task->description;
+    }
+
+    public function getStatus(): bool
+    {
+        return $this->task->status;
     }
 }

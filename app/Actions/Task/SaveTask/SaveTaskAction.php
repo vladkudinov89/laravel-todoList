@@ -19,7 +19,7 @@ class SaveTaskAction
         $taskSave = new Task([
             'name' => $saveTaskRequest->getName(),
             'description' => $saveTaskRequest->getDescription(),
-            'status' => $saveTaskRequest->getStatus()
+            'status' => $saveTaskRequest->getStatus() == 'true' ? true : false
         ]);
 
         $task = $this->taskRepository->save($taskSave);
