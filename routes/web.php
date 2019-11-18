@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('tasks.index');
-});
+//Route::get('/', function () {
+//    return redirect()->route('tasks.index');
+//});
 
-Route::resource('tasks' , 'TaskController');
+Route::get('/{any?}', function () {
+    return view('layouts.app');
+})->where('any', '^(?!api|dist|storage\b).+');
 
-Route::post('tasks/search' , 'TaskController@search')->name('tasks.search');
+
+//Route::resource('tasks' , 'TaskController');
+
+//Route::post('tasks/search' , 'TaskController@search')->name('tasks.search');

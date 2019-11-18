@@ -4,11 +4,11 @@ namespace App\Actions\Task\SaveTask;
 
 class SaveTaskRequest
 {
-    private $name;
-    private $description;
-    private $status;
+    protected $name;
+    protected $description;
+    protected $status;
 
-    public function __construct(string $name , string $description , bool $status)
+    public function __construct(string $name , string $description , $status)
     {
         $this->name = $name;
         $this->description = $description;
@@ -25,8 +25,8 @@ class SaveTaskRequest
         return $this->description;
     }
 
-    public function getStatus(): bool
+    public function getStatus(): string
     {
-        return $this->status;
+         return  $this->status;
     }
 }

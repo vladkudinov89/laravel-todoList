@@ -76,11 +76,7 @@ services:
       dockerfile: ./docker/frontend/Dockerfile
       context: .
     volumes:
-      - ./webpack.mix.js:/var/www/webpack.mix.js
-      - ./package.json:/var/www/package.json
-      - ./package-lock.json:/var/www/package-lock.json
-      - ./resources:/var/www/resources
-      - ./public:/var/www/public
+      - ./:/var/www
     working_dir: /var/www
     command: [ 'npm', 'run', 'watch-poll' ]
     tty: true
