@@ -1699,12 +1699,6 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TaskItem */ "./resources/js/components/TaskItem.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -1811,14 +1805,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.$store.getters['task/getFilteredTasks'](this.elasticSearch);
     }
   },
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('task', ['addNewTask', 'searchTasks']), {
+  methods: {
     searchTaskE: function searchTaskE() {
       var _this = this;
 
       this.$store.dispatch('task/searchTasks', {
         search: this.searchTask
       }).then(function (response) {
-        _this.elasticSearch = response;
+        if (response === -1) {
+          _this.$store.getters['task/getFilteredTasks'](_this.elasticSearch);
+        } else {
+          _this.elasticSearch = response;
+        }
       });
     },
     saveTask: function saveTask() {
@@ -1850,7 +1848,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     debouncedGetTasks: function debouncedGetTasks() {
       this.$store.dispatch('task/searchTasks', this.searchTask);
     }
-  })
+  }
 });
 
 /***/ }),
@@ -54261,8 +54259,8 @@ __webpack_require__.r(__webpack_exports__);
   searchTasks: function searchTasks(context, _ref) {
     var search = _ref.search;
 
-    if (search.length == 0) {
-      search == -1;
+    if (search.length === 0) {
+      return -1;
     } else {
       return new Promise(function (resolve, reject) {
         axios.get('/api/v1/tasks/search?q=' + search).then(function (response) {

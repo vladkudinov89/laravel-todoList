@@ -108,13 +108,16 @@
             },
         },
         methods: {
-            ...mapActions('task', ['addNewTask' , 'searchTasks']),
-
             searchTaskE(){
               this.$store.dispatch('task/searchTasks' , {
                     search : this.searchTask
               }).then((response) => {
-                this.elasticSearch = response;
+                  if(response === -1){
+                       this.$store.getters['task/getFilteredTasks'](this.elasticSearch);
+                  } else {
+                      this.elasticSearch = response;
+                  }
+
               });
             },
 

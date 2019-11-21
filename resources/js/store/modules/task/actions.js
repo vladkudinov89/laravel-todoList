@@ -44,8 +44,8 @@ export default {
     },
 
     searchTasks: (context , {search}) => {
-        if(search.length == 0){
-               search == -1;
+        if(search.length === 0){
+               return -1;
         } else {
         return new Promise((resolve, reject) => {
           axios.get('/api/v1/tasks/search?q=' + search)
