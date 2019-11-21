@@ -1787,6 +1787,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      elasticSearch: [],
       searchTask: '',
       newTask: {
         name: '',
@@ -1805,16 +1806,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.$store.dispatch('task/fetchTasks');
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])('task', {
-    tasks: 'tasks'
-  }), {
+  computed: {
     searchTaskF: function searchTaskF() {
-      return this.$store.getters['task/getFilteredTasks'](this.searchTask);
+      return this.$store.getters['task/getFilteredTasks'](this.elasticSearch);
     }
-  }),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('task', ['addNewTask']), {
-    saveTask: function saveTask() {
+  },
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])('task', ['addNewTask', 'searchTasks']), {
+    searchTaskE: function searchTaskE() {
       var _this = this;
+
+      this.$store.dispatch('task/searchTasks', {
+        search: this.searchTask
+      }).then(function (response) {
+        _this.elasticSearch = response;
+      });
+    },
+    saveTask: function saveTask() {
+      var _this2 = this;
 
       this.$store.dispatch('task/addNewTask', {
         name: this.newTask.name,
@@ -1823,7 +1831,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (result) {
         $('#exampleModal').modal('hide');
 
-        _this.clearUser();
+        _this2.clearUser();
       })["catch"](function (response) {
         console.log(response);
         alert("Could not create new task");
@@ -37287,9 +37295,10 @@ var render = function() {
                   expression: "searchTask"
                 }
               ],
-              attrs: { type: "text", placeholder: "Search..." },
+              attrs: { type: "text", name: "q", placeholder: "Search..." },
               domProps: { value: _vm.searchTask },
               on: {
+                keyup: _vm.searchTaskE,
                 input: function($event) {
                   if ($event.target.composing) {
                     return
@@ -54249,6 +54258,19 @@ __webpack_require__.r(__webpack_exports__);
       });
     });
   },
+  searchTasks: function searchTasks(context, _ref) {
+    var search = _ref.search;
+
+    if (search.length == 0) {
+      search == -1;
+    } else {
+      return new Promise(function (resolve, reject) {
+        axios.get('/api/v1/tasks/search?q=' + search).then(function (response) {
+          resolve(response.data);
+        });
+      });
+    }
+  },
   deleteTask: function deleteTask(context, id) {
     return new Promise(function (resolve, reject) {
       axios["delete"]('/api/v1/tasks/' + id).then(function (response) {
@@ -54277,11 +54299,12 @@ __webpack_require__.r(__webpack_exports__);
     return state.tasks;
   },
   getFilteredTasks: function getFilteredTasks(state) {
-    return function (searchTask) {
-      // console.log(searchTask);
-      return state.tasks.filter(function (task) {
-        return task.name.includes(searchTask) || task.description.includes(searchTask);
-      });
+    return function (searchTasks) {
+      if (searchTasks.length == 0) {
+        return state.tasks;
+      } else {
+        return state.tasks = searchTasks;
+      }
     };
   }
 });
