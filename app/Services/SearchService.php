@@ -24,9 +24,11 @@ class SearchService
             'type' => 'tasks',
             'body' => [
                 'query' => [
-
-                    'term' => [
-                        'name' => $request->q
+                    'bool' => [
+                        'should' => [
+                            ['term' => ['name' => $request->q]],
+                            ['term' => ['description' => $request->q]],
+                        ]
                     ]
                 ],
             ]
