@@ -17,9 +17,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::get('/tasks', 'Api\TaskController@index');
+
+
+
     Route::post('/tasks', 'Api\TaskController@store');
     Route::put('/tasks/{id}', 'Api\TaskController@update');
     Route::delete('/tasks/{id}', 'Api\TaskController@destroy');
+
+    Route::get('tasks/search' , 'Api\TaskController@search');
 });
 
 

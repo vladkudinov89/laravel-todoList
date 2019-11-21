@@ -34,6 +34,8 @@ class InitCommand extends Command
             $this->client->indices()->delete([
                 'index' => 'app'
             ]);
+            $this->output->writeln('');
+            $this->info('Delete!');
         } catch (Missing404Exception $e) {
         }
 
@@ -82,8 +84,8 @@ class InitCommand extends Command
                             ],
                             'trigrams' => [
                                 'type' => 'ngram',
-                                'min_gram' => 4,
-                                'max_gram' => 6,
+                                'min_gram' => 1,
+                                'max_gram' => 20,
                             ],
                         ],
                         'analyzer' => [
@@ -121,6 +123,8 @@ class InitCommand extends Command
             ]);
         }
 
+        $this->output->writeln('');
+        $this->info('Reindex Success!');
 
     }
 }

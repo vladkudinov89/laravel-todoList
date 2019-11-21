@@ -15,7 +15,9 @@ use App\Entities\Task;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateSaveTaskRequest;
 use App\Http\Requests\ValidateUpdateTaskRequest;
+use App\Services\SearchService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -24,18 +26,21 @@ class TaskController extends Controller
     private $saveTaskAction;
     private $deleteTaskAction;
     private $updateTaskAction;
+    private $searchService;
 
     public function __construct(
         GetAllTasksAction $getAllTasksAction,
         SaveTaskAction $saveTaskAction,
         UpdateTaskAction $updateTaskAction,
-        DeleteTaskAction $deleteTaskAction
+        DeleteTaskAction $deleteTaskAction,
+        SearchService $searchService
     )
     {
         $this->getAllTasksAction = $getAllTasksAction;
         $this->saveTaskAction = $saveTaskAction;
         $this->deleteTaskAction = $deleteTaskAction;
         $this->updateTaskAction = $updateTaskAction;
+        $this->searchService = $searchService;
     }
 
     public function index()
@@ -75,6 +80,11 @@ class TaskController extends Controller
         ));
 
         return $this->successResponse(UpdateTaskPresenter::present($updateResponse), 201);
+    }
+
+    public function search(Request $request)
+    {
+        return $this->searchService->search($request);
     }
 
     protected function successResponse(array $data, int $statusCode = JsonResponse::HTTP_OK): JsonResponse
