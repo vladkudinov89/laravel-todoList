@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands\Search;
 
-use App\Entities\Task;
-use App\Repositories\Task\TaskRepository;
 use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Illuminate\Console\Command;
@@ -34,8 +32,6 @@ class InitCommand extends Command
             $this->client->indices()->delete([
                 'index' => 'app'
             ]);
-            $this->output->writeln('');
-            $this->info('Delete!');
         } catch (Missing404Exception $e) {
         }
 
@@ -122,9 +118,6 @@ class InitCommand extends Command
                 ]
             ]);
         }
-
-        $this->output->writeln('');
-        $this->info('Reindex Success!');
 
     }
 }

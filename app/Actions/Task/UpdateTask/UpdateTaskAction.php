@@ -3,14 +3,17 @@
 namespace App\Actions\Task\UpdateTask;
 
 use App\Repositories\Task\TaskRepositoryInterface;
+use App\Services\SearchService;
 
 class UpdateTaskAction
 {
     private $taskRepository;
+    private $searchService;
 
-    public function __construct(TaskRepositoryInterface $taskRepository)
+    public function __construct(TaskRepositoryInterface $taskRepository , SearchService $searchService)
     {
         $this->taskRepository = $taskRepository;
+        $this->searchService = $searchService;
     }
 
     public function execute(UpdateTaskRequest $updateTaskRequest): UpdateTaskResponse
@@ -21,6 +24,10 @@ class UpdateTaskAction
         $taskUpdate->description = $updateTaskRequest->getDescription();
         $taskUpdate->status = $updateTaskRequest->getStatus();
 
-        return new UpdateTaskResponse($this->taskRepository->save($taskUpdate));
+        $task = $this->taskRepository->save($taskUpdate);
+
+        $this->searchService->reindex();
+
+        return new UpdateTaskResponse($task);
     }
 }
