@@ -60,11 +60,11 @@
 
             <div class="card-group justify-content-between">
                 <task-item
-                            v-on:delete-task="deleteTask"
-                           v-bind:status="task.status"
-                           v-for="(task , index) in searchTaskF"
-                           :key="task.id"
-                           :task.sync="task"></task-item>
+                    v-on:delete-task="deleteTask"
+                    v-bind:status="task.status"
+                    v-for="(task , index) in searchTaskF"
+                    :key="task.id"
+                    :task.sync="task"></task-item>
             </div>
 
         </div>
@@ -73,14 +73,14 @@
 
 <script>
     import TaskItem from "./TaskItem";
-    import {mapState, mapGetters , mapActions} from 'vuex';
+    import {mapState, mapGetters, mapActions} from 'vuex';
 
     export default {
         name: "IndexComponent",
         components: {TaskItem},
         data: function () {
             return {
-                elasticSearch : [],
+                elasticSearch: [],
                 searchTask: '',
                 newTask: {
                     name: '',
@@ -108,17 +108,12 @@
             },
         },
         methods: {
-            searchTaskE(){
-              this.$store.dispatch('task/searchTasks' , {
-                    search : this.searchTask
-              }).then((response) => {
-                  if(response === -1){
-                       this.$store.getters['task/getFilteredTasks'](this.elasticSearch);
-                  } else {
-                      this.elasticSearch = response;
-                  }
-
-              });
+            searchTaskE() {
+                this.$store.dispatch('task/searchTasks', {
+                    search: this.searchTask
+                }).then((response) => {
+                    this.elasticSearch = response;
+                });
             },
 
             saveTask() {
@@ -142,10 +137,10 @@
                 }
             },
             deleteTask(id) {
-                this.$store.dispatch('task/deleteTask' , id);
+                this.$store.dispatch('task/deleteTask', id);
             },
-            debouncedGetTasks(){
-                this.$store.dispatch('task/searchTasks' ,
+            debouncedGetTasks() {
+                this.$store.dispatch('task/searchTasks',
                     this.searchTask
                 );
             }

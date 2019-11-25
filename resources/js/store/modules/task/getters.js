@@ -5,10 +5,10 @@ export default {
     },
 
     getFilteredTasks: state => searchTasks => {
-        if(searchTasks.length == 0){
+        if(searchTasks.length == 0 || searchTasks == -1){
             return state.tasks;
         } else {
-             return state.tasks = searchTasks;
+             return searchTasks;
          }
     },
 };
