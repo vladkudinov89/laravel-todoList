@@ -4,11 +4,11 @@ export default {
         return state.tasks;
     },
 
-    getFilteredTasks: state => searchTask => {
-        // console.log(searchTask);
-        return state.tasks.filter(task => {
-                return task.name.includes(searchTask) || task.description.includes(searchTask);
-            }
-        )
+    getFilteredTasks: state => searchTasks => {
+        if(searchTasks.length == 0){
+            return state.tasks;
+        } else {
+             return state.tasks = searchTasks;
+         }
     },
 };

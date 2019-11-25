@@ -10,9 +10,12 @@ services:
     container_name: app
     restart: unless-stopped
     tty: true
+    links:
+      - elasticsearch
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
+      ELASTICSEARCH_HOSTS: elasticsearch:9200
     working_dir: /var/www
     volumes:
       - ./:/var/www
@@ -80,6 +83,23 @@ services:
     working_dir: /var/www
     command: [ 'npm', 'run', 'watch-poll' ]
     tty: true
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+    container_name: elasticsearch
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./storage/docker/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - "9201:9200"
+    networks:
+      - app-network
 
 #Docker Networks
 networks:

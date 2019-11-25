@@ -4,14 +4,17 @@ namespace App\Actions\Task\SaveTask;
 
 use App\Entities\Task;
 use App\Repositories\Task\TaskRepositoryInterface;
+use App\Services\SearchService;
 
 class SaveTaskAction
 {
     private $taskRepository;
+    private $searchService;
 
-    public function __construct(TaskRepositoryInterface $taskRepository)
+    public function __construct(TaskRepositoryInterface $taskRepository , SearchService $searchService)
     {
         $this->taskRepository = $taskRepository;
+        $this->searchService = $searchService;
     }
 
     public function execute(SaveTaskRequest $saveTaskRequest): SaveTaskResponse
@@ -23,6 +26,8 @@ class SaveTaskAction
         ]);
 
         $task = $this->taskRepository->save($taskSave);
+
+        $this->searchService->reindex();
 
         return new SaveTaskResponse($task);
     }

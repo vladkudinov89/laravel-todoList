@@ -10,7 +10,7 @@
                     </button>
                 </div>
                 <div class="m-3">
-                    <input type="text" v-model="searchTask" placeholder="Search...">
+                    <input type="text" @keyup="searchTaskE" v-model="searchTask" name="q" placeholder="Search...">
                 </div>
             </div>
 
@@ -80,6 +80,7 @@
         components: {TaskItem},
         data: function () {
             return {
+                elasticSearch : [],
                 searchTask: '',
                 newTask: {
                     name: '',
@@ -102,16 +103,23 @@
             this.$store.dispatch('task/fetchTasks');
         },
         computed: {
-            ...mapState('task' , {
-                tasks : 'tasks'
-            }),
-
             searchTaskF() {
-                return this.$store.getters['task/getFilteredTasks'](this.searchTask);
+                return this.$store.getters['task/getFilteredTasks'](this.elasticSearch);
             },
         },
         methods: {
-            ...mapActions('task', ['addNewTask']),
+            searchTaskE(){
+              this.$store.dispatch('task/searchTasks' , {
+                    search : this.searchTask
+              }).then((response) => {
+                  if(response === -1){
+                       this.$store.getters['task/getFilteredTasks'](this.elasticSearch);
+                  } else {
+                      this.elasticSearch = response;
+                  }
+
+              });
+            },
 
             saveTask() {
                 this.$store.dispatch('task/addNewTask', {

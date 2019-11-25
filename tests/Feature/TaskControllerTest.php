@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Entities\Task;
-use App\Exceptions\Task\TaskDoesNotExistException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,43 +15,24 @@ class TaskControllerTest extends TestCase
     {
         $tasks = factory(Task::class, 3)->create();
 
-        $response = $this->get('/tasks')
+        $response = $this->get('/api/v1/tasks')
             ->assertStatus(200)
             ->getOriginalContent();
 
-        self::assertEquals($tasks[0]->name , $response['tasks'][0]->name);
-        self::assertEquals($tasks[0]->description , $response['tasks'][0]->description);
-        self::assertEquals($tasks[0]->status , $response['tasks'][0]->status);
-    }
-
-    /** @test */
-    public function get_task_by_id()
-    {
-        $task = factory(Task::class)->create();
-
-        $response = $this->get($task->path())
-            ->assertStatus(200)
-            ->getOriginalContent();
-
-        self::assertEquals($task->name , $response['task']->name);
-        self::assertEquals($task->description , $response['task']->description);
-        self::assertEquals($task->status , $response['task']->status);
-    }
-
-    /** @test */
-    public function get_fake_task_by_name()
-    {
-        $this->get('/tasks/fake')
-            ->assertStatus(404);
+        for ($i = 0;$i > count($tasks);$i++){
+            self::assertEquals($tasks[$i]->name , $response[$i]->name);
+            self::assertEquals($tasks[$i]->description , $response[$i]->description);
+            self::assertEquals($tasks[$i]->status , $response[$i]->status);
+        }
     }
 
     /** @test */
     public function save_task()
     {
-       $this->post('tasks' , [
+       $this->post('api/v1/tasks' , [
             'name' => 'new name',
             'description' => 'new description',
-            'status' => 1
+            'status' => 'true'
         ]);
 
         $this->assertDatabaseHas('task_lists' , [
@@ -68,10 +48,10 @@ class TaskControllerTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->patch($task->path() , [
+        $this->put('api/v1/tasks/' . $task->id , [
             'name' => 'name changed',
             'description' => 'description changed',
-            'status' => 1
+            'status' => 'true'
         ]);
 
         $this->assertDatabaseHas('task_lists' , [
@@ -86,7 +66,7 @@ class TaskControllerTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->delete($task->path());
+        $this->delete('api/v1/tasks/'. $task->id);
 
         $this->assertDatabaseMissing('task_lists' , $task->toArray());
     }
@@ -94,41 +74,7 @@ class TaskControllerTest extends TestCase
     /** @test */
     public function not_found_task_to_delete()
     {
-        $this->delete('tasks/' . 9999)
+        $this->delete('api/v1/tasks' . 9999)
             ->assertStatus(404);
     }
-
-    /** @test */
-    public function search_tasks_by_name()
-    {
-        $tasks = factory(Task::class , 3)->create();
-
-        $response = $this->post('/tasks/search' , [
-                'search' => $tasks[0]->name
-        ])->getOriginalContent();
-
-        $this->assertDatabaseHas('task_lists' , [
-            'name' => $tasks[0]->name
-        ]);
-
-        $this->assertEquals($tasks[0]->name , $response['tasks'][0]->name);
-    }
-
-    /** @test */
-    public function search_tasks_by_description()
-    {
-        $tasks = factory(Task::class , 3)->create();
-
-        $response = $this->post('/tasks/search' , [
-                'search' => $tasks[0]->description
-        ])->getOriginalContent();
-
-        $this->assertDatabaseHas('task_lists' , [
-            'description' => $tasks[0]->description
-        ]);
-
-        $this->assertEquals($tasks[0]->description , $response['tasks'][0]->description);
-    }
-
-
 }
