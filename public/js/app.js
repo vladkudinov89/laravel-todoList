@@ -1812,11 +1812,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('task/searchTasks', {
         search: this.searchTask
       }).then(function (response) {
-        if (response === -1) {
-          _this.$store.getters['task/getFilteredTasks'](_this.elasticSearch);
-        } else {
-          _this.elasticSearch = response;
-        }
+        _this.elasticSearch = response;
       });
     },
     saveTask: function saveTask() {
@@ -54298,10 +54294,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   getFilteredTasks: function getFilteredTasks(state) {
     return function (searchTasks) {
-      if (searchTasks.length == 0) {
+      if (searchTasks.length == 0 || searchTasks == -1) {
         return state.tasks;
       } else {
-        return state.tasks = searchTasks;
+        return searchTasks;
       }
     };
   }
