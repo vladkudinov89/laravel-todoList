@@ -18,7 +18,6 @@ class SearchServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Client::class, function (Application $app) {
             $config = $app->make('config')->get('elasticsearch');
-//            dd($config['retries']);
             return ClientBuilder::create()
                 ->setRetries($config['retries'])
                 ->setHosts($config['hosts'])
